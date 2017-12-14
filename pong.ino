@@ -3,16 +3,22 @@
 #include <Arduboy.h>
 Arduboy arduboy;
 int gamestate = 0;
+int justpressed = 0;
+int ballx = 62;
+int bally = 4;
+int ballsize = 4;
+int ballright = 1;
+int balldown = 1;
 void setup() {
     arduboy.begin();
     // seed the rng
     srand(7/8);
     // set game to 60fps
-    arduboy.setFramerate(60);
+    arduboy.setFrameRate(60);
     arduboy.clear();
 }
 
-voice loop() {
+void loop() {
     // Prevent Arduboy from running too fast
     // If it is too early to display the next frame, restart loop
     if (!arduboy.nextFrame()) {
@@ -24,21 +30,77 @@ voice loop() {
             // Title Screen
             arduboy.setCursor(0, 0);
             arduboy.print("Title Screen");
+            if (arduboy.pressed(A_BUTTON) and justpressed == 0)
+            {
+                justpressed = 1;
+                gamestate = 1;
+            }
             break;
         case 1:
             // Gameplay Screen
             arduboy.setCursor(0, 0);
             arduboy.print("Gameplay");
+            arduboy.fillRect(ballx, bally, ballsize, ballsize, WHITE);
+            // Move the ball right
+            if (ballright == 1) {
+                ballx = ballx + 1;
+            }
+            // Move the ball left
+            if (ballright == -1) {
+                ballx = ballx - 1;
+            }
+            // Same for vertical
+            if (balldown == 1) {
+                bally = bally + 1;
+            }
+            if (balldown == -1) {
+                bally = bally - 1;
+            }
+            // Reflect ball off left side of Screen
+            if (ballx == 0) {
+                ballright = 1;
+            }
+            // Reflect ball off right side of screen
+            if (ballx == 127) {
+                ballright = -1;
+            }
+            // Same for top and bottom
+            if (bally == 0) {
+                balldown = 1;
+            }
+            if (bally == 63) {
+                balldown = -1;
+            }
+            if (arduboy.pressed(A_BUTTON) and justpressed == 0)
+            {
+                justpressed = 1;
+                gamestate = 2;
+            }
             break;
         case 2:
             // Win Screen
             arduboy.setCursor(0, 0);
             arduboy.print("Win");
+            if (arduboy.pressed(A_BUTTON) and justpressed == 0)
+            {
+                justpressed = 1;
+                gamestate = 3;
+            }
+            break;
         case 3:
             // Game Over
             arduboy.setCursor(0, 0);
             arduboy.print("Over");
+            if (arduboy.pressed(A_BUTTON) and justpressed == 0)
+            {
+                justpressed = 1;
+                gamestate = 0;
+            }
             break;
+    }
+    // Check if button is not being held down
+    if ( arduboy.notPressed(A_BUTTON) ) {
+        justpressed = 0;
     }
     arduboy.display();
 }
