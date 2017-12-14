@@ -13,6 +13,8 @@ int paddlewidth = 4;
 int paddleheight = 9;
 int playerx = 0;
 int playery = 0;
+int opponentx = 127 - paddlewidth;
+int opponenty = 0;
 void setup() {
     arduboy.begin();
     // seed the rng
@@ -85,6 +87,16 @@ void loop() {
             if (arduboy.pressed(DOWN_BUTTON) and playery + paddleheight < 63) {
                 playery = playery + 1;
             }
+            // Player 2
+            arduboy.fillRect(opponentx, opponenty, paddlewidth, paddleheight, WHITE);
+            // Simple AI
+            if (bally < opponenty) {
+                opponenty = opponenty -1;
+            }
+            if ( bally + ballsize > opponenty + paddleheight) {
+                opponenty = opponenty + 1;
+            }
+            
             if (arduboy.pressed(A_BUTTON) and justpressed == 0)
             {
                 justpressed = 1;
