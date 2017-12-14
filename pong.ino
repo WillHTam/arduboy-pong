@@ -79,10 +79,10 @@ void loop() {
             // The Paddle
             arduboy.fillRect(playerx, playery, paddlewidth, paddleheight, WHITE);
             // no need for buffers since we want continuous movement
-            if (arduboy.pressed(UP_BUTTON)) {
+            if (arduboy.pressed(UP_BUTTON) and playery > 0) {
                 playery = playery - 1;
             }
-            if (arduboy.pressed(DOWN_BUTTON)) {
+            if (arduboy.pressed(DOWN_BUTTON) and playery + paddleheight < 63) {
                 playery = playery + 1;
             }
             if (arduboy.pressed(A_BUTTON) and justpressed == 0)
