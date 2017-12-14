@@ -61,14 +61,14 @@ void loop() {
                 ballright = 1;
             }
             // Reflect ball off right side of screen
-            if (ballx == 127) {
+            if (ballx + ballsize == 127) {
                 ballright = -1;
             }
             // Same for top and bottom
             if (bally == 0) {
                 balldown = 1;
             }
-            if (bally == 63) {
+            if (bally + ballsize == 63) {
                 balldown = -1;
             }
             if (arduboy.pressed(A_BUTTON) and justpressed == 0)
