@@ -43,8 +43,10 @@ void loop() {
     switch ( gamestate ) {
         case 0:
             // Title Screen
-            arduboy.setCursor(0, 0);
-            arduboy.print("Title Screen");
+            arduboy.setCursor(30, 30);
+            arduboy.print("Ponga");
+            arduboy.print("\n");
+            arduboy.print("Authentic Australian Pong");
             if (arduboy.pressed(A_BUTTON) and justpressed == 0)
             {
                 justpressed = 1;
