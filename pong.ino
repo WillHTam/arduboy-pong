@@ -15,6 +15,15 @@ int playerx = 0;
 int playery = 0;
 int opponentx = 127 - paddlewidth;
 int opponenty = 0;
+int playerscore = 0;
+int opponentscore = 0;
+
+void resetgame() {
+    ballx = 63;
+    playerscore = 0;
+    opponentscore = 0;
+}
+
 void setup() {
     arduboy.begin();
     // seed the rng
@@ -44,8 +53,19 @@ void loop() {
             break;
         case 1:
             // Gameplay Screen
-            arduboy.setCursor(0, 0);
-            arduboy.print("Gameplay");
+            // Scores
+            arduboy.setCursor(20, 0);
+            arduboy.print(playerscore);
+            arduboy.setCursor(101, 0);
+            arduboy.print(opponentscore);
+            if(ballx < -10) {
+                ballx = 63;
+                opponentscore = opponentscore + 1;
+            }
+            if(ballx > 130) {
+                ballx = 63;
+                playerscore = playerscore + 1;
+            }
             // The Ball
             arduboy.fillRect(ballx, bally, ballsize, ballsize, WHITE);
             // Move the ball right
@@ -63,12 +83,12 @@ void loop() {
             if (balldown == -1) {
                 bally = bally - 1;
             }
-            // Reflect ball off paddle only
+            // Reflect ball off player paddle only
             if (ballx == playerx + paddlewidth and playery < bally + ballsize and playery + paddleheight > bally) {
                 ballright = 1;
             }
-            // Reflect ball off right side of screen
-            if (ballx + ballsize == 127) {
+            // Reflect ball off opponent paddle
+            if (ballx + ballsize == opponentx and opponenty < bally + ballsize and opponenty + paddleheight > bally) {
                 ballright = -1;
             }
             // Same for top and bottom
@@ -102,51 +122,31 @@ void loop() {
                 justpressed = 1;
                 gamestate = 2;
             }
+            if (playerscore == 5 or opponentscore == 5)
+            {
+                gamestate = 3;
+            }
             break;
-        case 2:
+        case 2: 
+            // Two Player
+        case 3:
             // Win Screen
             arduboy.setCursor(0, 0);
-            arduboy.print("A Winner Is You");
-            arduboy.fillRect(ballx, bally, ballsize, ballsize, WHITE);
-            if (ballright == 1)
-            {
-                ballx = ballx + 1;
+            arduboy.print("A Winner Is");
+            if ( playerscore == 5) {
+                arduboy.print('Player 1')
             }
-            if (ballright == -1)
-            {
-                ballx = ballx - 1;
-            }
-            if (balldown == 1)
-            {
-                bally = bally + 1;
-            }
-            if (balldown == -1)
-            {
-                bally = bally - 1;
-            }
-            if (ballx == 0)
-            {
-                ballright = 1;
-            }
-            if (ballx + ballsize == 127)
-            {
-                ballright = -1;
-            }
-            if (bally == 0)
-            {
-                balldown = 1;
-            }
-            if (bally + ballsize == 63)
-            {
-                balldown = -1;
+            if ( opponentscore == 5) {
+                arduboy.print('Player 2')
             }
             if (arduboy.pressed(A_BUTTON) and justpressed == 0)
             {
                 justpressed = 1;
                 gamestate = 3;
             }
+            resetgame()
             break;
-        case 3:
+        case 4:
             // Game Over
             arduboy.setCursor(0, 0);
             arduboy.print("Over");
