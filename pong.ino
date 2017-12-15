@@ -10,7 +10,7 @@ int ballsize = 4;
 int ballright = 1;
 int balldown = 1;
 int paddlewidth = 4;
-int paddleheight = 9;
+int paddleheight = 10;
 int playerx = 0;
 int playery = 0;
 int opponentx = 127 - paddlewidth;
@@ -63,8 +63,8 @@ void loop() {
             if (balldown == -1) {
                 bally = bally - 1;
             }
-            // Reflect ball off left side of Screen
-            if (ballx == 0) {
+            // Reflect ball off paddle only
+            if (ballx == playerx + paddlewidth and playery < bally + ballsize and playery + paddleheight > bally) {
                 ballright = 1;
             }
             // Reflect ball off right side of screen
@@ -106,7 +106,40 @@ void loop() {
         case 2:
             // Win Screen
             arduboy.setCursor(0, 0);
-            arduboy.print("Win");
+            arduboy.print("A Winner Is You");
+            arduboy.fillRect(ballx, bally, ballsize, ballsize, WHITE);
+            if (ballright == 1)
+            {
+                ballx = ballx + 1;
+            }
+            if (ballright == -1)
+            {
+                ballx = ballx - 1;
+            }
+            if (balldown == 1)
+            {
+                bally = bally + 1;
+            }
+            if (balldown == -1)
+            {
+                bally = bally - 1;
+            }
+            if (ballx == 0)
+            {
+                ballright = 1;
+            }
+            if (ballx + ballsize == 127)
+            {
+                ballright = -1;
+            }
+            if (bally == 0)
+            {
+                balldown = 1;
+            }
+            if (bally + ballsize == 63)
+            {
+                balldown = -1;
+            }
             if (arduboy.pressed(A_BUTTON) and justpressed == 0)
             {
                 justpressed = 1;
