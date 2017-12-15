@@ -44,20 +44,24 @@ void loop() {
         case 0:
             // Title Screen
             arduboy.setCursor(30, 30);
-            arduboy.print("Ponga");
+            arduboy.print("Ponga:");
             arduboy.print("\n");
-            arduboy.print("Authentic Australian Pong");
-            if (arduboy.pressed(A_BUTTON) and justpressed == 0)
-            {
+            arduboy.print("   Authentic");
+            arduboy.print("\n");
+            arduboy.print("      Australian");
+            arduboy.print("\n");
+            arduboy.print("          Pong");
+            if (arduboy.pressed(A_BUTTON) and justpressed == 0) {
                 justpressed = 1;
                 gamestate = 1;
+                delay(20);
             }
             break;
         case 1:
             // Gameplay Screen
             // Scores
-            arduboy.setCursor(0,0);
-            arduboy.print('1P');
+            arduboy.setCursor(50, 0);
+            arduboy.print("1P");
             arduboy.setCursor(20, 0);
             arduboy.print(playerscore);
             arduboy.setCursor(101, 0);
@@ -120,10 +124,12 @@ void loop() {
             if ( bally + ballsize > opponenty + paddleheight) {
                 opponenty = opponenty + 1;
             }   
-            if (arduboy.pressed(A_BUTTON) and justpressed == 0)
+            if (arduboy.pressed(RIGHT_BUTTON) and justpressed == 0)
             {
                 justpressed = 1;
                 gamestate = 2;
+                resetgame();
+                delay(20);
             }
             if (playerscore == 5 or opponentscore == 5)
             {
@@ -132,8 +138,8 @@ void loop() {
             break;
         case 2: 
             // Two Player
-            arduboy.setCursor(0,0);
-            arduboy.print('2P');
+            arduboy.setCursor(50, 0);
+            arduboy.print("2P");
             arduboy.setCursor(20, 0);
             arduboy.print(playerscore);
             arduboy.setCursor(101, 0);
@@ -160,6 +166,7 @@ void loop() {
             if (balldown == -1) {
                 bally = bally - 1;
             }
+            arduboy.fillRect(ballx, bally, ballsize, ballsize, WHITE);
             if (ballx == playerx + paddlewidth and playery < bally + ballsize and playery + paddleheight > bally) {
                 ballright = 1;
             }
@@ -179,32 +186,33 @@ void loop() {
             if (arduboy.pressed(DOWN_BUTTON) and playery + paddleheight < 63) {
                 playery = playery + 1;
             }
-            if (arduboy.pressed(A_BUTTON) and opponenty > 0) {
+            arduboy.fillRect(opponentx, opponenty, paddlewidth, paddleheight, WHITE);
+            if (arduboy.pressed(B_BUTTON) and opponenty > 0) {
                 opponenty = opponenty - 1;
             }
-            if (arduboy.pressed(B_BUTTON) and opponenty + paddleheight < 63) {
+            if (arduboy.pressed(A_BUTTON) and opponenty + paddleheight < 63) {
                 opponenty = opponenty + 1;
             }
-            if (arduboy.pressed(A_BUTTON) and justpressed == 0)
-            {
+            if (arduboy.pressed(RIGHT_BUTTON) and justpressed == 0) {
                 justpressed = 1;
                 gamestate = 1;
+                resetgame();
+                delay(20);
             }
-            if (playerscore == 5 or opponentscore == 5)
-            {
-                gamestate = 3;
+            if (playerscore == 7) {
+              gamestate = 3;
+            }
+            if (opponentscore == 7) {
+              gamestate = 4;
             }
             break;
         case 3:
             // Win Screen
-            arduboy.setCursor(0, 0);
-            arduboy.print("A Winner Is");
-            if ( playerscore == 5) {
-                arduboy.print('Player 1');
-            }
-            if ( opponentscore == 5) {
-                arduboy.print('Player 2');
-            }
+            arduboy.setCursor(30, 30);
+            arduboy.print("The Winner Is");
+            arduboy.setCursor(30, 50);
+            arduboy.print("\n");
+            arduboy.print("Player 1");
             if (arduboy.pressed(A_BUTTON) and justpressed == 0)
             {
                 justpressed = 1;
@@ -212,6 +220,19 @@ void loop() {
             }
             resetgame();
             break;
+        case 4:
+          arduboy.setCursor(30, 30);
+          arduboy.print("The Winner Is");
+          arduboy.print("\n");
+          arduboy.setCursor(30, 50);
+          arduboy.print("Player 2");
+          if (arduboy.pressed(A_BUTTON) and justpressed == 0)
+            {
+                justpressed = 1;
+                gamestate = 0;
+            }
+          resetgame();
+          break;
     }
     // Check if button is not being held down
     if ( arduboy.notPressed(A_BUTTON) ) {
