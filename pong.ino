@@ -43,7 +43,8 @@ void loop() {
     switch ( gamestate ) {
         case 0:
             // Title Screen
-            arduboy.setCursor(30, 30);
+            arduboy.setCursor(30, 20);
+            arduboy.print("William's");
             arduboy.print("Ponga:");
             arduboy.print("\n");
             arduboy.print("   Authentic");
@@ -54,7 +55,7 @@ void loop() {
             if (arduboy.pressed(A_BUTTON) and justpressed == 0) {
                 justpressed = 1;
                 gamestate = 1;
-                delay(20);
+                delay(100);
             }
             break;
         case 1:
@@ -129,7 +130,7 @@ void loop() {
                 justpressed = 1;
                 gamestate = 2;
                 resetgame();
-                delay(20);
+                delay(100);
             }
             if (playerscore == 5 or opponentscore == 5)
             {
@@ -197,7 +198,7 @@ void loop() {
                 justpressed = 1;
                 gamestate = 1;
                 resetgame();
-                delay(20);
+                delay(100);
             }
             if (playerscore == 7) {
               gamestate = 3;
@@ -208,10 +209,10 @@ void loop() {
             break;
         case 3:
             // Win Screen
-            arduboy.setCursor(30, 30);
+            arduboy.setCursor(30, 20);
             arduboy.print("The Winner Is");
-            arduboy.setCursor(30, 50);
             arduboy.print("\n");
+            arduboy.setCursor(30,50);
             arduboy.print("Player 1");
             if (arduboy.pressed(A_BUTTON) and justpressed == 0)
             {
