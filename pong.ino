@@ -43,9 +43,8 @@ void loop() {
     switch ( gamestate ) {
         case 0:
             // Title Screen
-            arduboy.setCursor(30, 20);
-            arduboy.print("William's ");
-            arduboy.print("Ponga:");
+            arduboy.setCursor(27, 20);
+            arduboy.print("William's PONGA");
             arduboy.print("\n");
             arduboy.print("   Authentic");
             arduboy.print("\n");
@@ -61,7 +60,7 @@ void loop() {
         case 1:
             // Gameplay Screen
             // Scores
-            arduboy.setCursor(50, 0);
+            arduboy.setCursor(53, 0);
             arduboy.print("1P");
             arduboy.setCursor(20, 0);
             arduboy.print(playerscore);
@@ -139,7 +138,7 @@ void loop() {
             break;
         case 2: 
             // Two Player
-            arduboy.setCursor(50, 0);
+            arduboy.setCursor(53, 0);
             arduboy.print("2P");
             arduboy.setCursor(20, 0);
             arduboy.print(playerscore);
@@ -148,11 +147,13 @@ void loop() {
             if (ballx < -10)
             {
                 ballx = 63;
+                ballright = 1;
                 opponentscore = opponentscore + 1;
             }
             if (ballx > 130)
             {
                 ballx = 63;
+                ballright = -1;
                 playerscore = playerscore + 1;
             }
             if (ballright == 1) {
