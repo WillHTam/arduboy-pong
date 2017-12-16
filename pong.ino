@@ -44,7 +44,7 @@ void loop() {
         case 0:
             // Title Screen
             arduboy.setCursor(30, 20);
-            arduboy.print("William's");
+            arduboy.print("William's ");
             arduboy.print("Ponga:");
             arduboy.print("\n");
             arduboy.print("   Authentic");
