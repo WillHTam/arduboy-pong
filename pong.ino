@@ -43,7 +43,7 @@ void loop() {
     switch ( gamestate ) {
         case 0:
             // Title Screen
-            arduboy.setCursor(27, 20);
+            arduboy.setCursor(23, 20);
             arduboy.print("William's PONGA");
             arduboy.print("\n");
             arduboy.print("   Authentic");
