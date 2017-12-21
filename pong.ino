@@ -131,11 +131,12 @@ void loop() {
                 resetgame();
                 delay(100);
             }
-            if (playerscore == 5 or opponentscore == 5)
-            {
-                gamestate = 3;
+            if (playerscore == 7) {
+              gamestate = 3;
             }
-            break;
+            if (opponentscore == 7) {
+              gamestate = 4;
+            }
         case 2: 
             // Two Player
             arduboy.setCursor(53, 0);
